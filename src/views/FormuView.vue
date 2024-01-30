@@ -10,9 +10,12 @@ const error = ref('');
 const mostrarDatos = ref(false);
 
 const validarFormulario = () => {
-
   error.value = '';
 
+  if (!nombre.value.trim() || !apellido.value.trim()) {
+    error.value = 'Nombre y apellido son obligatorios.';
+    return;
+  }
 
   if (nombre.value.length > 18 || apellido.value.length > 18) {
     error.value = 'Nombre y apellido deben tener máximo 18 caracteres.';
@@ -35,6 +38,11 @@ const validarFormulario = () => {
     return;
   }
 
+  if (!/^\d+$/.test(telefono.value)) {
+    error.value = 'Número de teléfono solo puede contener números.';
+    return;
+  }
+
   if (telefono.value.length > 10) {
     error.value = 'Número de teléfono no puede tener más de 10 dígitos.';
     return;
@@ -42,8 +50,8 @@ const validarFormulario = () => {
 
   mostrarDatos.value = true;
 };
-
 </script>
+
 
 <template>
   <main>
@@ -88,39 +96,55 @@ const validarFormulario = () => {
 <style scoped>
   main {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     margin: 20px;
   }
 
   .formulario {
-    width: 300px;
-    background-color: #f4f4f4;
+    width: 350px;
+    background-color: #f8f8f8;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    margin-right: 20px;
+  }
+
+  .formulario:hover {
+    background-color: #f2f2f2;
   }
 
   label {
     margin-top: 10px;
     display: block;
+    font-weight: bold;
+    color: #555;
   }
 
   input, select {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  input:focus, select:focus {
+    outline: none;
+    border-color: #4caf50;
   }
 
   button {
     background-color: #4caf50;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
   button:hover {
@@ -128,9 +152,13 @@ const validarFormulario = () => {
   }
 
   .resultado {
-    margin-top: 20px;
+    width: 350px;
     font-size: 18px;
     color: #333;
+    background-color: #dff0d8;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 
   .error {
